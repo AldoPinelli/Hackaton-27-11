@@ -4,26 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/tone"></script>
-  <title>pjaaanoooo</title>
+  <title>Pjanooo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>jaaanoooo</h1>
+  <h1>Listen to the whole song Pjanooo</h1>
+  <div class="btn-group">
+    <button id="startSong">Start</button>
+    <button id="stopSong">Stop</button>
+  </div>
+  <div class="divider"></div>
+  <h1>DJ MODE</h1>
+  
+  <!-- Prima riga: Piano, Bass e Synth -->
+  <div class="row">
+    <div class="section">
+      <h2>Piano</h2>
+      <div class="btn-group">
+        <button id="startPiano">Start</button>
+        <button id="stopPiano">Stop</button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Bass</h2>
+      <div class="btn-group">
+        <button id="startBass">Start</button>
+        <button id="stopBass">Stop</button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Synth</h2>
+      <div class="btn-group">
+        <button id="startSynth">Start</button>
+        <button id="stopSynth">Stop</button>
+      </div>
+    </div>
+  </div>
 
-  <!-- Bottoni per il Basso -->
-  <h2>Basso</h2>
-  <button id="startBass">Avvia Basso</button>
-  <button id="stopBass">Stop Basso</button>
-
-  <!-- Bottoni per il Pianoforte -->
-  <h2>Pianoforte</h2>
-  <button id="startPiano">Avvia Pianoforte</button>
-  <button id="stopPiano">Stop Pianoforte</button>
-
-  <!-- Bottoni per la Batteria -->
-  <h2>Batteria</h2>
-  <button id="startDrums">Avvia Batteria</button>
-  <button id="stopDrums">Stop Batteria</button>
-
-  <script src="hackaton.js"></script>
+  <!-- Seconda riga: Kick, Snare e Effects -->
+  <div class="row">
+    <div class="section">
+      <h2>Kick</h2>
+      <div class="btn-group">
+        <button id="startKick">Start</button>
+        <button id="stopKick">Stop</button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Snare</h2>
+      <div class="btn-group">
+        <button id="startSnare">Start</button>
+        <button id="stopSnare">Stop</button>
+      </div>
+    </div>
+    <div class="section">
+      <h2>Effects</h2>
+      <div class="btn-group">
+        <button id="startEffect">Start</button>
+        <button id="stopEffect">Stop</button>
+      </div>
+    </div>
+  </div>
+  <script src="ciao.js"></script>
 </body>
 </html>
