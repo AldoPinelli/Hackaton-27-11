@@ -1,15 +1,37 @@
-
 body {
   font-family: Arial, sans-serif;
   background-color: #fdf6e3;
   color: #593c1f;
   margin: 0;
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  height: 100vh; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   text-align: center;
-  flex-direction: column; 
+  flex-direction: column;
+  position: relative; /* Necessario per l'elemento ::before */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://raw.githubusercontent.com/AldoPinelli/Hackaton-27-11/369b9a2127f53f82f24c5ba707cbf93da9a06728/images/Screenshot%202024-12-09%20alle%2002.37.32.png');
+  background-repeat: repeat;
+  background-size: 668px 179px;
+  background-position: top left;
+  opacity: 0.5; /* Modifica l'opacità qui, 0 è completamente trasparente, 1 è completamente opaco */
+  z-index: -1; /* Assicurati che l'immagine si trovi dietro al contenuto */
+}
+
+h1, h2 {
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.9); /* Sfondo semi-trasparente dietro il testo */
+  border-radius: 7px;
+  color: #593c1f;
 }
 
 h1 {
@@ -22,14 +44,12 @@ h2 {
   font-size: 1.2rem;
 }
 
-
 .divider {
   height: 5px;
   background-color: #5e2ca5;
   margin: 20px auto;
   width: 80%;
 }
-
 
 .row {
   display: flex;
@@ -42,14 +62,12 @@ h2 {
   text-align: center;
 }
 
-
 .btn-group {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin: 10px 0;
 }
-
 
 button {
   padding: 10px 20px;
