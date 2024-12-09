@@ -33,6 +33,54 @@ const synth_bass = new Tone.Synth({
       octaves: 3
   }
 }).toDestination();
+const synth_kick = new Tone.MembraneSynth({
+    pitchDecay: 0.1, 
+    octaves: 8, 
+    oscillator: {
+        type: 'sine'
+    },
+    envelope: {
+        attack: 0.005,
+        decay: 0.6,
+        sustain: 0.02,
+        release: 1.6,
+        attackCurve: 'exponential'
+    }
+}).toDestination();
+const synth_snare = new Tone.MembraneSynth({
+    pitchDecay: 0.05,
+    octaves: 6,
+    oscillator: {
+        type: "square" 
+    },
+    envelope: {
+        attack: 0.005,
+        decay: 0.3,
+        sustain: 0,
+        release: 0.1,
+    }
+}).toDestination();
+const synth_hihat = new Tone.MetalSynth({
+    frequency: 400, 
+    envelope: {
+        attack: 0.001,
+        decay: 0.1,
+        release: 0.01
+    },
+    harmonicity: 5.1, 
+    modulationIndex: 32, 
+    resonance: 8000, 
+    octaves: 1.5 
+}).toDestination();
+
+const hihatNotes = ["C2", "C2", "C2", "C2"];
+const hihatTimes = [0.25, 0.50, 0.25,].map(time => time * beatDuration);
+
+const snareNotes = ["C2", "C2", "C2", "C2"];
+const snareTimes = [2, 2].map(time => time * beatDuration);
+
+const kickNotes = ["C1", "C1", "C1", "C1"];
+const kickTimes = [1, 1, 1, 1].map(time => time * beatDuration);
 
 const pianoNotes1 = ["Bb4", "Bb4", "A4", "A4", "G4", "G4", "G4"]; 
 const pianoTimes1 = [0.5, 0.5, 0.5, 0.5, 0.75, 0.75].map(time => time * beatDuration);
@@ -48,8 +96,8 @@ const synthTimes = [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 
 const bassNotes = ['G3', 'G3','F3','F3','Eb3','Eb3','Eb3','Eb3', 'Eb3','F3', 'F3','C3','C3','C3','C3','C3','D3','D3','Eb3','Eb3','Eb3','Eb3','Eb3','F3','F3','G3','G3','G3' ];
 const bassTimes = [ 0.5, 0.5, 0.5, 0.5, 0.75, 0.75,0.5,0.5, 0.5, 0.5, 0.5, 0.75, 0.75,0.5,0.5, 0.5, 0.5, 0.5, 0.75, 0.75,0.5,0.5, 0.5, 0.5, 0.5, 0.75, 0.75,0.5,].map(time => time * beatDuration);
 
-function createPart(synth, notes, times) {
-    events = notes.map((note, index) => [times.slice(0, index).reduce((a, b) => a + b, 0), note]);
+function createPart(synth, notes, times, offset = 0) {
+    events = notes.map((note, index) => [times.slice(0, index).reduce((a, b) => a + b, 0) + offset, note]);
     part= new Tone.Part((time, note) => {
         synth.triggerAttackRelease(note, "8n", time);
     }, events);
@@ -62,7 +110,10 @@ const synth_part = createPart(synth_apreggio,synthNotes, synthTimes);
 const piano1_part = createPart(synth_piano1, pianoNotes1, pianoTimes1);
 const piano2_part = createPart(synth_piano2, pianoNotes2, pianoTimes2);
 const bass_part = createPart(synth_bass, bassNotes, bassTimes);
-const global_parts = [synth_part, piano1_part, piano2_part, bass_part];
+const kick_part = createPart(synth_kick, kickNotes, kickTimes);
+const snare_part = createPart(synth_snare, snareNotes, snareTimes, beatDuration);
+const hihat_part = createPart(synth_hihat, hihatNotes, hihatTimes, 0.5 * beatDuration);
+const global_parts = [synth_part, piano1_part, piano2_part, bass_part,kick_part, snare_part];
 
 async function startNextSubdivision(parts) {
     await Tone.start();
@@ -80,7 +131,6 @@ async function checkTone(){
             Tone.Transport.start(); 
             }
 }
-
 document.getElementById('startSong').addEventListener('click', async () => {
     if(firstTime){
         firstTime = false;
@@ -103,7 +153,6 @@ document.getElementById('stopSong').addEventListener('click', async () => {
     wholeSong = false;
 });
 
-
 document.getElementById('startPiano').addEventListener('click', async () => {
     if (!wholeSong) {
         if (piano1_part.state === 'started') {
@@ -119,7 +168,6 @@ document.getElementById('startPiano').addEventListener('click', async () => {
         }
     }
 });
-
 
 document.getElementById('stopPiano').addEventListener('click', () => {
     piano2_part.stop();
@@ -140,12 +188,9 @@ document.getElementById('startSynth').addEventListener('click', async() => {
     }
 });
 
-
-
 document.getElementById('stopSynth').addEventListener('click', () => {
     synth_part.stop();
 });
-
 
 document.getElementById('startBass').addEventListener('click', async() => {
     if (!wholeSong) {
@@ -165,3 +210,56 @@ document.getElementById('stopBass').addEventListener('click', () => {
     bass_part.stop();
 });
 
+document.getElementById('startKick').addEventListener('click', async () => {
+    if (!wholeSong) {
+        if (kick_part.state === 'started') {
+            console.log('kick is already started');
+        } else if (firstTime) {
+            checkTone();
+            kick_part.start();
+            firstTime = false;
+        } else {
+            startNextSubdivision([kick_part]);
+        }
+    }
+});
+
+document.getElementById('stopKick').addEventListener('click', () => {
+    kick_part.stop();
+});
+
+document.getElementById('startSnare').addEventListener('click', async () => {
+    if (!wholeSong) {
+        if (snare_part.state === 'started') {
+            console.log('snare is already started');
+        } else if (firstTime) {
+            checkTone();
+            snare_part.start();
+            firstTime = false;
+        } else {
+            startNextSubdivision([snare_part]);
+        }
+    }
+});
+
+document.getElementById('stopSnare').addEventListener('click', () => {
+    snare_part.stop();
+});
+
+document.getElementById('startHiHat').addEventListener('click', async () => {
+    if (!wholeSong) {
+        if (hihat_part.state === 'started') {
+            console.log('hihat is already started');
+        } else if (firstTime) {
+            checkTone();
+            hihat_part.start();
+            firstTime = false;
+        } else {
+            startNextSubdivision([hihat_part]);
+        }
+    }
+});
+
+document.getElementById('stopHiHat').addEventListener('click', () => {
+    hihat_part.stop();
+});
