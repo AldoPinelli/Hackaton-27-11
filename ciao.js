@@ -141,6 +141,8 @@ document.getElementById('startSong').addEventListener('click', async () => {
     if(firstTime){
         firstTime = false;
     }
+    if(!wholeSong){
+
     wholeSong = true;
     isDjMode = false; 
     global_parts.forEach(part => part.stop());
@@ -192,7 +194,7 @@ document.getElementById('startSong').addEventListener('click', async () => {
         wholeSong = false;
     }, 168*beatDuration * 1000);
     
-    
+    }
 
 });
 
