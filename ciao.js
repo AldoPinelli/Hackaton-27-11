@@ -72,6 +72,15 @@ const synth_hihat = new Tone.MetalSynth({
     resonance: 8000, 
     octaves: 1.5 
 }).toDestination();
+const riser = new Tone.Player({
+    url: "https://AldoPinelli.github.io/Hackaton-27-11/images/80s%20Synth%20FX%20Riser%2002.caf", // Sostituisci con il percorso del file locale
+    autostart: false, 
+    loop: false 
+}).toDestination();
+riser.load().catch(err => {
+    console.error("Could not load riser file. Please check the URL.", err);
+    alert("Audio file for riser could not be loaded. Check the file path.");
+});
 
 const hihatNotes = ["C2", "C2", "C2", "C2"];
 const hihatTimes = [0.25, 0.50, 0.25,].map(time => time * beatDuration);
@@ -262,4 +271,22 @@ document.getElementById('startHiHat').addEventListener('click', async () => {
 
 document.getElementById('stopHiHat').addEventListener('click', () => {
     hihat_part.stop();
+});
+
+document.getElementById('startRiser').addEventListener('click', async () => {
+    if (!wholeSong) {
+        if (riser.state === 'started') {
+            console.log('riser is already started');
+        } else if (firstTime) {
+            checkTone();
+            riser.start();
+            firstTime = false;
+        } else {
+            startNextSubdivision([riser]);
+        }
+    }
+});
+
+document.getElementById('stopRiser').addEventListener('click', () => {
+    riser.stop();
 });
