@@ -155,7 +155,7 @@ document.getElementById('startSong').addEventListener('click', async () => {
 
     piano1_part.start(32*beatDuration);
     piano2_part.start(32*beatDuration);
-    riser.start(35*beatDuration);
+    riser.start(40*beatDuration);
 
     kick_part.start(48*beatDuration);
     snare_part.start(48*beatDuration);
