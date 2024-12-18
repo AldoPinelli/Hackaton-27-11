@@ -73,7 +73,7 @@ const synth_hihat = new Tone.MetalSynth({
     octaves: 1.5 
 }).toDestination();
 const riser = new Tone.Player({
-    url: "images/80s-Synth-FX-Riser-02.wav", // Sostituisci con il percorso del file locale
+    url: "images/80s-Synth-FX-Riser-02.mp3", // Sostituisci con il percorso del file locale
     autostart: false, 
     loop: false 
 }).toDestination();
