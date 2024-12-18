@@ -73,7 +73,7 @@ const synth_hihat = new Tone.MetalSynth({
     octaves: 1.5 
 }).toDestination();
 const riser = new Tone.Player({
-    url: "images/80s-Synth-FX-Riser-02.mp3", // Sostituisci con il percorso del file locale
+    url: "https://raw.githubusercontent.com/AldoPinelli/Hackaton-27-11/main/images/80s-Synth-FX-Riser-02.mp3", // Sostituisci con il percorso del file locale
     autostart: false, 
     loop: false 
 }).toDestination();
@@ -146,24 +146,51 @@ document.getElementById('startSong').addEventListener('click', async () => {
     global_parts.forEach(part => part.stop());
     checkTone();
     const startSongTime = Tone.Transport.now();
-    kick_part.start();
-    snare_part.start(8*beatDuration);
-    hihat_part.start(16*beatDuration);
-    kick_part.stop(32*beatDuration);
-    snare_part.stop(32*beatDuration);
-    hihat_part.stop(32*beatDuration);
+    kick_part.start(startSongTime);
+    snare_part.start(startSongTime + 8*beatDuration);
+    hihat_part.start(startSongTime+16*beatDuration);
+    kick_part.stop(startSongTime+32*beatDuration);
+    snare_part.stop(startSongTime+32*beatDuration);
+    hihat_part.stop(startSongTime+32*beatDuration);
 
-    piano1_part.start(32*beatDuration);
-    piano2_part.start(32*beatDuration);
-    riser.start(40*beatDuration);
+    piano1_part.start(startSongTime+32*beatDuration);
+    piano2_part.start(startSongTime+32*beatDuration);
+    riser.start(startSongTime+40*beatDuration);
 
-    kick_part.start(48*beatDuration);
-    snare_part.start(48*beatDuration);
-    hihat_part.start(48*beatDuration);
-    bass_part.start(48*beatDuration);
-    synth_part.start(64*beatDuration);
-    riser.start(64*beatDuration);
+    kick_part.start(startSongTime+48*beatDuration);
+    snare_part.start(startSongTime+48*beatDuration);
+    hihat_part.start(startSongTime+48*beatDuration);
+    bass_part.start(startSongTime+48*beatDuration);
+    riser.start(startSongTime+64*beatDuration);
 
+    synth_part.start(startSongTime+72*beatDuration);
+
+    snare_part.stop(startSongTime+88*beatDuration);   
+    hihat_part.stop(startSongTime+88*beatDuration);   
+    synth_part.stop(startSongTime+88*beatDuration);      
+    piano1_part.stop(startSongTime+88*beatDuration);  
+    piano2_part.stop(startSongTime+88*beatDuration);  
+
+    
+    synth_part.start(startSongTime+104*beatDuration);
+    piano1_part.start(startSongTime+120*beatDuration);  
+    piano2_part.start(startSongTime+120*beatDuration); 
+    hihat_part.start(startSongTime+136*beatDuration); 
+    snare_part.start(startSongTime+136*beatDuration);
+
+    riser.start(startSongTime+160*beatDuration);
+
+    kick_part.stop(startSongTime+168*beatDuration);
+    snare_part.stop(startSongTime+168*beatDuration);
+    hihat_part.stop(startSongTime+168*beatDuration);
+    bass_part.stop(startSongTime+168*beatDuration);
+    synth_part.stop(startSongTime+168*beatDuration);
+    piano1_part.stop(startSongTime+168*beatDuration);
+    piano2_part.stop(startSongTime+168*beatDuration);
+
+    setInterval(() => {
+        wholeSong = false;
+    }, 168*beatDuration * 1000);
     
     
 
@@ -192,8 +219,10 @@ document.getElementById('startPiano').addEventListener('click', async () => {
 });
 
 document.getElementById('stopPiano').addEventListener('click', () => {
+    if(!wholeSong){
     piano2_part.stop();
     piano1_part.stop();
+    }
 });
 
 document.getElementById('startSynth').addEventListener('click', async() => {
@@ -211,7 +240,9 @@ document.getElementById('startSynth').addEventListener('click', async() => {
 });
 
 document.getElementById('stopSynth').addEventListener('click', () => {
+    if(!wholeSong){
     synth_part.stop();
+    }
 });
 
 document.getElementById('startBass').addEventListener('click', async() => {
@@ -229,7 +260,9 @@ document.getElementById('startBass').addEventListener('click', async() => {
 });
 
 document.getElementById('stopBass').addEventListener('click', () => {
+    if(!wholeSong){
     bass_part.stop();
+    }
 });
 
 document.getElementById('startKick').addEventListener('click', async () => {
@@ -247,7 +280,9 @@ document.getElementById('startKick').addEventListener('click', async () => {
 });
 
 document.getElementById('stopKick').addEventListener('click', () => {
+    if(!wholeSong){
     kick_part.stop();
+    }
 });
 
 document.getElementById('startSnare').addEventListener('click', async () => {
@@ -265,7 +300,9 @@ document.getElementById('startSnare').addEventListener('click', async () => {
 });
 
 document.getElementById('stopSnare').addEventListener('click', () => {
+    if(!wholeSong){
     snare_part.stop();
+    }
 });
 
 document.getElementById('startHiHat').addEventListener('click', async () => {
@@ -283,7 +320,9 @@ document.getElementById('startHiHat').addEventListener('click', async () => {
 });
 
 document.getElementById('stopHiHat').addEventListener('click', () => {
+    if (!wholeSong) {
     hihat_part.stop();
+    }
 });
 
 document.getElementById('startRiser').addEventListener('click', async () => {
@@ -301,5 +340,7 @@ document.getElementById('startRiser').addEventListener('click', async () => {
 });
 
 document.getElementById('stopRiser').addEventListener('click', () => {
+    if (!wholeSong) {
     riser.stop();
+    }
 });
