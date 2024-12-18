@@ -73,14 +73,11 @@ const synth_hihat = new Tone.MetalSynth({
     octaves: 1.5 
 }).toDestination();
 const riser = new Tone.Player({
-    url: "https://AldoPinelli.github.io/Hackaton-27-11/images/80s%20Synth%20FX%20Riser%2002.caf", // Sostituisci con il percorso del file locale
+    url: "images/80s-Synth-FX-Riser-02.wav", // Sostituisci con il percorso del file locale
     autostart: false, 
     loop: false 
 }).toDestination();
-riser.load().catch(err => {
-    console.error("Could not load riser file. Please check the URL.", err);
-    alert("Audio file for riser could not be loaded. Check the file path.");
-});
+
 
 const hihatNotes = ["C2", "C2", "C2", "C2"];
 const hihatTimes = [0.25, 0.50, 0.25,].map(time => time * beatDuration);
@@ -122,7 +119,7 @@ const bass_part = createPart(synth_bass, bassNotes, bassTimes);
 const kick_part = createPart(synth_kick, kickNotes, kickTimes);
 const snare_part = createPart(synth_snare, snareNotes, snareTimes, beatDuration);
 const hihat_part = createPart(synth_hihat, hihatNotes, hihatTimes, 0.5 * beatDuration);
-const global_parts = [synth_part, piano1_part, piano2_part, bass_part,kick_part, snare_part];
+const global_parts = [synth_part, piano1_part, piano2_part, bass_part,kick_part, snare_part, hihat_part, riser];
 
 async function startNextSubdivision(parts) {
     await Tone.start();
@@ -149,10 +146,26 @@ document.getElementById('startSong').addEventListener('click', async () => {
     global_parts.forEach(part => part.stop());
     checkTone();
     const startSongTime = Tone.Transport.now();
-    synth_part.start();
-    piano1_part.start();
-    piano2_part.start();
-    bass_part.start();
+    kick_part.start();
+    snare_part.start(8*beatDuration);
+    hihat_part.start(16*beatDuration);
+    kick_part.stop(32*beatDuration);
+    snare_part.stop(32*beatDuration);
+    hihat_part.stop(32*beatDuration);
+
+    piano1_part.start(32*beatDuration);
+    piano2_part.start(32*beatDuration);
+    riser.start(35*beatDuration);
+
+    kick_part.start(48*beatDuration);
+    snare_part.start(48*beatDuration);
+    hihat_part.start(48*beatDuration);
+    bass_part.start(48*beatDuration);
+    synth_part.start(64*beatDuration);
+    riser.start(64*beatDuration);
+
+    
+    
 
 });
 
